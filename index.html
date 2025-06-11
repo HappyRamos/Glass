@@ -3,46 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glassmorphism Website</title>
+  <title>Glass Presentation</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: #f2f2f2;
+      font-family: 'Arial', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sphere {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #e0e0e0, #c0c0c0);
+      opacity: 0.6;
+      filter: blur(20px);
+    }
+
+    .sphere.one {
+      width: 150px;
+      height: 150px;
+      top: -50px;
+      left: -50px;
+    }
+
+    .sphere.two {
+      width: 120px;
+      height: 120px;
+      bottom: -40px;
+      left: 20%;
+    }
+
+    .sphere.three {
+      width: 100px;
+      height: 100px;
+      top: 0;
+      right: -40px;
     }
 
     .glass-card {
-      width: 300px;
-      padding: 2rem;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      text-align: center;
+      width: 90%;
+      max-width: 700px;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+      color: #333;
+      text-align: left;
+      position: relative;
+      z-index: 1;
     }
 
-    h1 {
+    .glass-card h1 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+
+    .glass-card p {
+      font-size: 1rem;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    .glass-card .top {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 0.9rem;
       margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 1rem;
-      line-height: 1.4;
+    .glass-card .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .icons a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
+  <div class="sphere one"></div>
+  <div class="sphere two"></div>
+  <div class="sphere three"></div>
+
   <div class="glass-card">
-    <h1>Hello 🌟</h1>
-    <p>This is your glassmorphism website starter. Let’s build something stunning.</p>
+    <div class="top">
+      <span>PRESENTATION DESIGN</span>
+      <span>LOGO</span>
+    </div>
+    <h1>TITLE OF THE PRESENTATION</h1>
+    <p>Lorem ipsum dolor sit amet consectetur. Pellentesque donec velit pretium et enim turpis leo ullamcorper integer.</p>
+    <div class="bottom">
+      <div class="icons">
+        <a href="#">📷</a>
+        <a href="#">📘</a>
+        <a href="#">🌐</a>
+      </div>
+      <span>loremipsum@gmail.com</span>
+    </div>
   </div>
 </body>
 </html>
