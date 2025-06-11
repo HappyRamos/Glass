@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Presentation</title>
+  <title>Glass Cherry Drop</title>
   <style>
     body {
       margin: 0;
@@ -98,6 +98,37 @@
       color: #333;
       font-size: 1.2rem;
     }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      margin: 1rem 0;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e04361;
+    }
+
+    .cherry {
+      position: fixed;
+      top: -40px;
+      font-size: 2rem;
+      animation: fall 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -110,8 +141,12 @@
       <span>PRESENTATION DESIGN</span>
       <span>LOGO</span>
     </div>
+
     <h1>TITLE OF THE PRESENTATION</h1>
     <p>Lorem ipsum dolor sit amet consectetur. Pellentesque donec velit pretium et enim turpis leo ullamcorper integer.</p>
+
+    <button onclick="dropCherry()">Drop a Cherry 🍒</button>
+
     <div class="bottom">
       <div class="icons">
         <a href="#">📷</a>
@@ -121,5 +156,16 @@
       <span>loremipsum@gmail.com</span>
     </div>
   </div>
+
+  <script>
+    function dropCherry() {
+      const cherry = document.createElement("div");
+      cherry.className = "cherry";
+      cherry.textContent = "🍒";
+      cherry.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(cherry);
+      setTimeout(() => cherry.remove(), 3000);
+    }
+  </script>
 </body>
 </html>
