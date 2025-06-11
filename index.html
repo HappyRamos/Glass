@@ -1,177 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Cherry Drop 3D</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: #f2f2f2;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-      perspective: 1000px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mortgage Intake – Glass UI</title>
 
-    .sphere {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #e0e0e0, #c0c0c0);
-      opacity: 0.6;
-      filter: blur(20px);
-    }
+<!--  ▸  BASIC RESET + GOOGLE FONT  -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --glass-bg: rgba(255,255,255,.25);          /* blur backdrop */
+  --glass-brd: rgba(255,255,255,.35);         /* light border  */
+  --radius:   16px;
+  --gap:      1.25rem;
+  --deep-bg:  #e9edf5;                        /* page backdrop */
+}
 
-    .sphere.one {
-      width: 150px;
-      height: 150px;
-      top: -50px;
-      left: -50px;
-    }
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
+body{background:var(--deep-bg);min-height:100vh;display:flex;}
+a,button,label{cursor:pointer;user-select:none}
 
-    .sphere.two {
-      width: 120px;
-      height: 120px;
-      bottom: -40px;
-      left: 20%;
-    }
+.glass{background:var(--glass-bg);backdrop-filter:blur(18px) saturate(180%);
+       -webkit-backdrop-filter:blur(18px) saturate(180%);
+       border:1px solid var(--glass-brd);border-radius:var(--radius);}
 
-    .sphere.three {
-      width: 100px;
-      height: 100px;
-      top: 0;
-      right: -40px;
-    }
+/* ─────────────────  LAYOUT  ───────────────── */
+#sidebar{
+  width:240px;padding:var(--gap);display:flex;flex-direction:column;
+  gap:var(--gap);overflow-y:auto;
+}
+#main{
+  flex:1;padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap);
+}
 
-    .glass-card {
-      width: 90%;
-      max-width: 700px;
-      padding: 2.5rem;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
-      color: #333;
-      text-align: left;
-      position: relative;
-      z-index: 1;
-    }
+/* ─────────────────  SIDEBAR  ───────────────── */
+.back-row{display:flex;align-items:center;gap:.5rem;font-weight:600;}
+.back-row .arrow{background:var(--glass-bg);width:32px;height:32px;
+                 display:flex;align-items:center;justify-content:center;
+                 border-radius:50%;border:1px solid var(--glass-brd);}
+.section-title{font-size:.85rem;font-weight:600;margin:.75rem 0 .25rem;color:#555;}
 
-    .glass-card h1 {
-      font-size: 2rem;
-      margin: 0.5rem 0;
-    }
+.step{display:flex;align-items:center;gap:.5rem;padding:.4rem .2rem;
+      border-radius:8px;font-size:.88rem;}
+.step img{width:16px;height:16px;opacity:.7}
+.step.active{background:rgba(0,140,255,.12);font-weight:600;}
+.step.disabled{opacity:.55}
 
-    .glass-card p {
-      font-size: 1rem;
-      margin: 0.5rem 0 1.5rem;
-    }
+/* ─────────────────  TOP BAR  ───────────────── */
+#topbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.badge{padding:.25rem .6rem;font-size:.75rem;border-radius:12px;
+       background:var(--glass-bg);border:1px solid var(--glass-brd);}
+.badge span{font-weight:600}
 
-    .glass-card .top {
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
+/* ─────────────────  CARD  ───────────────── */
+.card{padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap);}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+.tab{padding:.45rem .9rem;font-size:.8rem;border-radius:12px;border:1px solid transparent;}
+.tab.active{background:rgba(0,140,255,.18);border-color:rgba(0,140,255,.25);font-weight:600;}
+h2{font-size:1.05rem;font-weight:600;margin-bottom:.4rem;color:#333}
+.check-row{display:flex;gap:2rem;font-size:.85rem}
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:var(--gap);
+}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field label{font-size:.75rem;font-weight:600;color:#444}
+.field input, .field select{
+  padding:.55rem .6rem;border-radius:10px;border:1px solid rgba(0,0,0,.1);
+  background:var(--glass-bg);backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+}
 
-    .glass-card .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .icons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .icons a {
-      text-decoration: none;
-      color: #333;
-      font-size: 1.2rem;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background: #ff4d6d;
-      color: white;
-      cursor: pointer;
-      margin: 1rem 0;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #e04361;
-    }
-
-    .cherry {
-      position: fixed;
-      top: -40px;
-      font-size: 2rem;
-      pointer-events: none;
-      animation: fall3D 3s linear forwards;
-      transform-style: preserve-3d;
-    }
-
-    @keyframes fall3D {
-      0% {
-        transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotateX(720deg) rotateY(720deg) scale(1.2);
-        opacity: 0;
-      }
-    }
-  </style>
+/* small helper styles */
+input::placeholder{color:#aaa;font-size:.8rem}
+::-webkit-calendar-picker-indicator{filter:invert(0.5)}
+</style>
 </head>
+
 <body>
-  <div class="sphere one"></div>
-  <div class="sphere two"></div>
-  <div class="sphere three"></div>
-
-  <div class="glass-card">
-    <div class="top">
-      <span>PRESENTATION DESIGN</span>
-      <span>LOGO</span>
+  <!-- ─────────────────  SIDEBAR  ───────────────── -->
+  <aside id="sidebar" class="glass">
+    <div class="back-row">
+      <div class="arrow">←</div>
+      <span>14472126</span>
     </div>
 
-    <h1>TITLE OF THE PRESENTATION</h1>
-    <p>Lorem ipsum dolor sit amet consectetur. Pellentesque donec velit pretium et enim turpis leo ullamcorper integer.</p>
+    <div>
+      <div class="section-title">Purchase</div>
+      <div class="step active"><img src="https://img.icons8.com/ios-glyphs/30/000000/new-post.png"/>Invite Borrower</div>
+    </div>
 
-    <button onclick="dropCherry()">Drop a Cherry 🍒</button>
+    <div class="section-title">Workflow</div>
+      <div class="step disabled">Loan & Property</div>
+      <div class="step disabled">Borrower Info</div>
+      <div class="step disabled">Financial Info</div>
+      <div class="step disabled">Products & Pricing</div>
+      <div class="step disabled">Review Fees</div>
+      <div class="step disabled">Dual AUS</div>
+      <div class="step disabled">Pre-Approval</div>
+  </aside>
 
-    <div class="bottom">
-      <div class="icons">
-        <a href="#">📷</a>
-        <a href="#">📘</a>
-        <a href="#">🌐</a>
+  <!-- ─────────────────  MAIN  ───────────────── -->
+  <main id="main">
+    <!-- Top bar -->
+    <div id="topbar">
+      <span class="badge"><span>📄 App Intake</span></span>
+      <span class="badge">LTV --</span>
+      <span class="badge">FICO --</span>
+      <span class="badge">DTI 0.00%</span>
+      <span class="badge">FTC --</span>
+    </div>
+
+    <!-- Main card -->
+    <div class="card glass">
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active">Basic Details</div>
+        <div class="tab">Declarations</div>
+        <div class="tab">Demographics</div>
+        <div class="tab">Additional Questions</div>
       </div>
-      <span>loremipsum@gmail.com</span>
-    </div>
-  </div>
 
-  <script>
-    function dropCherry() {
-      const cherry = document.createElement("div");
-      cherry.className = "cherry";
-      cherry.textContent = "🍒";
-      cherry.style.left = Math.random() * 100 + "vw";
-      document.body.appendChild(cherry);
-      setTimeout(() => cherry.remove(), 3000);
-    }
-  </script>
+      <!-- Personal Info -->
+      <section>
+        <h2>Personal Info</h2>
+        <div class="check-row">
+          <label><input type="checkbox"> eConsent Authorized</label>
+          <label><input type="checkbox"> Credit Pull Authorized</label>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>First Name *</label>
+            <input placeholder="" />
+          </div>
+          <div class="field">
+            <label>Middle</label>
+            <input/>
+          </div>
+          <div class="field">
+            <label>Last Name *</label>
+            <input/>
+          </div>
+          <div class="field">
+            <label>Suffix</label>
+            <input/>
+          </div>
+
+          <div class="field">
+            <label>Social Security Number *</label>
+            <input placeholder="-----------"/>
+          </div>
+          <div class="field">
+            <label>Date of Birth *</label>
+            <input type="date"/>
+          </div>
+          <div class="field">
+            <label>Residency Type *</label>
+            <select><option>--</option><option>Owner Occupied</option><option>Investment</option></select>
+          </div>
+          <div class="field">
+            <label>Marital Status *</label>
+            <select><option>--</option><option>Single</option><option>Married</option></select>
+          </div>
+
+          <div class="field" style="grid-column:span 2">
+            <label>Email *</label>
+            <input value="alex.eells1995@gmail.com"/>
+          </div>
+          <div class="field">
+            <label>Cell Phone *</label>
+            <input/>
+          </div>
+          <div class="field">
+            <label>Work Phone</label>
+            <input/>
+          </div>
+          <div class="field">
+            <label>Home Phone</label>
+            <input/>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 </body>
 </html>
