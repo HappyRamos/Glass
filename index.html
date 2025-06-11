@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Cherry Drop</title>
+  <title>Glass Cherry Drop 3D</title>
   <style>
     body {
       margin: 0;
@@ -16,6 +16,7 @@
       align-items: center;
       overflow: hidden;
       position: relative;
+      perspective: 1000px;
     }
 
     .sphere {
@@ -119,13 +120,18 @@
       position: fixed;
       top: -40px;
       font-size: 2rem;
-      animation: fall 3s linear forwards;
       pointer-events: none;
+      animation: fall3D 3s linear forwards;
+      transform-style: preserve-3d;
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
+    @keyframes fall3D {
+      0% {
+        transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotateX(720deg) rotateY(720deg) scale(1.2);
         opacity: 0;
       }
     }
