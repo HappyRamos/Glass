@@ -1,85 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mortgage Intake – Glass UI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortgage Intake – Glass UI</title>
 
-<!--  ▸  BASIC RESET + GOOGLE FONT  -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --glass-bg: rgba(255,255,255,.25);          /* blur backdrop */
-  --glass-brd: rgba(255,255,255,.35);         /* light border  */
-  --radius:   16px;
-  --gap:      1.25rem;
-  --deep-bg:  #e9edf5;                        /* page backdrop */
-}
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
-body{background:var(--deep-bg);min-height:100vh;display:flex;}
-a,button,label{cursor:pointer;user-select:none}
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-brd: rgba(255, 255, 255, 0.2);
+      --radius: 16px;
+      --gap: 1.25rem;
+      --deep-bg: #1e1f26; /* darker background */
+    }
 
-.glass{background:var(--glass-bg);backdrop-filter:blur(18px) saturate(180%);
-       -webkit-backdrop-filter:blur(18px) saturate(180%);
-       border:1px solid var(--glass-brd);border-radius:var(--radius);}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
 
-/* ─────────────────  LAYOUT  ───────────────── */
-#sidebar{
-  width:240px;padding:var(--gap);display:flex;flex-direction:column;
-  gap:var(--gap);overflow-y:auto;
-}
-#main{
-  flex:1;padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap);
-}
+    body {
+      background: var(--deep-bg);
+      min-height: 100vh;
+      display: flex;
+      color: #fff;
+    }
 
-/* ─────────────────  SIDEBAR  ───────────────── */
-.back-row{display:flex;align-items:center;gap:.5rem;font-weight:600;}
-.back-row .arrow{background:var(--glass-bg);width:32px;height:32px;
-                 display:flex;align-items:center;justify-content:center;
-                 border-radius:50%;border:1px solid var(--glass-brd);}
-.section-title{font-size:.85rem;font-weight:600;margin:.75rem 0 .25rem;color:#555;}
+    a, button, label {
+      cursor: pointer;
+      user-select: none;
+    }
 
-.step{display:flex;align-items:center;gap:.5rem;padding:.4rem .2rem;
-      border-radius:8px;font-size:.88rem;}
-.step img{width:16px;height:16px;opacity:.7}
-.step.active{background:rgba(0,140,255,.12);font-weight:600;}
-.step.disabled{opacity:.55}
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border: 1px solid var(--glass-brd);
+      border-radius: var(--radius);
+    }
 
-/* ─────────────────  TOP BAR  ───────────────── */
-#topbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.badge{padding:.25rem .6rem;font-size:.75rem;border-radius:12px;
-       background:var(--glass-bg);border:1px solid var(--glass-brd);}
-.badge span{font-weight:600}
+    /* Layout */
+    #sidebar {
+      width: 240px;
+      padding: var(--gap);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      overflow-y: auto;
+    }
 
-/* ─────────────────  CARD  ───────────────── */
-.card{padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap);}
-.tabs{display:flex;gap:.5rem;flex-wrap:wrap}
-.tab{padding:.45rem .9rem;font-size:.8rem;border-radius:12px;border:1px solid transparent;}
-.tab.active{background:rgba(0,140,255,.18);border-color:rgba(0,140,255,.25);font-weight:600;}
-h2{font-size:1.05rem;font-weight:600;margin-bottom:.4rem;color:#333}
-.check-row{display:flex;gap:2rem;font-size:.85rem}
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:var(--gap);
-}
-.field{display:flex;flex-direction:column;gap:.35rem}
-.field label{font-size:.75rem;font-weight:600;color:#444}
-.field input, .field select{
-  padding:.55rem .6rem;border-radius:10px;border:1px solid rgba(0,0,0,.1);
-  background:var(--glass-bg);backdrop-filter:blur(14px) saturate(160%);
-  -webkit-backdrop-filter:blur(14px) saturate(160%);
-}
+    #main {
+      flex: 1;
+      padding: var(--gap);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
 
-/* small helper styles */
-input::placeholder{color:#aaa;font-size:.8rem}
-::-webkit-calendar-picker-indicator{filter:invert(0.5)}
-</style>
+    /* Sidebar */
+    .back-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .back-row .arrow {
+      background: var(--glass-bg);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--glass-brd);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0.75rem 0 0.25rem;
+      color: #bbb;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.2rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    .step img {
+      width: 16px;
+      height: 16px;
+      opacity: 0.7;
+    }
+
+    .step.active {
+      background: rgba(0, 140, 255, 0.2);
+      font-weight: 600;
+    }
+
+    .step.disabled {
+      opacity: 0.5;
+    }
+
+    /* Top Bar */
+    #topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      border-radius: 12px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-brd);
+    }
+
+    .badge span {
+      font-weight: 600;
+    }
+
+    /* Card */
+    .card {
+      padding: var(--gap);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      color: #ddd;
+    }
+
+    .tab.active {
+      background: rgba(0, 140, 255, 0.2);
+      border-color: rgba(0, 140, 255, 0.3);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .check-row {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.85rem;
+    }
+
+    label {
+      color: #ccc;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--gap);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select {
+      padding: 0.55rem 0.6rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+    }
+
+    input::placeholder {
+      color: #aaa;
+      font-size: 0.8rem;
+    }
+
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+    }
+  </style>
 </head>
 
 <body>
-  <!-- ─────────────────  SIDEBAR  ───────────────── -->
+  <!-- Sidebar -->
   <aside id="sidebar" class="glass">
     <div class="back-row">
       <div class="arrow">←</div>
@@ -88,22 +227,21 @@ input::placeholder{color:#aaa;font-size:.8rem}
 
     <div>
       <div class="section-title">Purchase</div>
-      <div class="step active"><img src="https://img.icons8.com/ios-glyphs/30/000000/new-post.png"/>Invite Borrower</div>
+      <div class="step active"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/new-post.png" />Invite Borrower</div>
     </div>
 
     <div class="section-title">Workflow</div>
-      <div class="step disabled">Loan & Property</div>
-      <div class="step disabled">Borrower Info</div>
-      <div class="step disabled">Financial Info</div>
-      <div class="step disabled">Products & Pricing</div>
-      <div class="step disabled">Review Fees</div>
-      <div class="step disabled">Dual AUS</div>
-      <div class="step disabled">Pre-Approval</div>
+    <div class="step disabled">Loan & Property</div>
+    <div class="step disabled">Borrower Info</div>
+    <div class="step disabled">Financial Info</div>
+    <div class="step disabled">Products & Pricing</div>
+    <div class="step disabled">Review Fees</div>
+    <div class="step disabled">Dual AUS</div>
+    <div class="step disabled">Pre-Approval</div>
   </aside>
 
-  <!-- ─────────────────  MAIN  ───────────────── -->
+  <!-- Main -->
   <main id="main">
-    <!-- Top bar -->
     <div id="topbar">
       <span class="badge"><span>📄 App Intake</span></span>
       <span class="badge">LTV --</span>
@@ -112,9 +250,7 @@ input::placeholder{color:#aaa;font-size:.8rem}
       <span class="badge">FTC --</span>
     </div>
 
-    <!-- Main card -->
     <div class="card glass">
-      <!-- Tabs -->
       <div class="tabs">
         <div class="tab active">Basic Details</div>
         <div class="tab">Declarations</div>
@@ -122,12 +258,11 @@ input::placeholder{color:#aaa;font-size:.8rem}
         <div class="tab">Additional Questions</div>
       </div>
 
-      <!-- Personal Info -->
       <section>
         <h2>Personal Info</h2>
         <div class="check-row">
-          <label><input type="checkbox"> eConsent Authorized</label>
-          <label><input type="checkbox"> Credit Pull Authorized</label>
+          <label><input type="checkbox" /> eConsent Authorized</label>
+          <label><input type="checkbox" /> Credit Pull Authorized</label>
         </div>
 
         <div class="form-grid">
@@ -137,49 +272,57 @@ input::placeholder{color:#aaa;font-size:.8rem}
           </div>
           <div class="field">
             <label>Middle</label>
-            <input/>
+            <input />
           </div>
           <div class="field">
             <label>Last Name *</label>
-            <input/>
+            <input />
           </div>
           <div class="field">
             <label>Suffix</label>
-            <input/>
+            <input />
           </div>
 
           <div class="field">
             <label>Social Security Number *</label>
-            <input placeholder="-----------"/>
+            <input placeholder="---/--/----" />
           </div>
           <div class="field">
             <label>Date of Birth *</label>
-            <input type="date"/>
+            <input type="date" />
           </div>
           <div class="field">
             <label>Residency Type *</label>
-            <select><option>--</option><option>Owner Occupied</option><option>Investment</option></select>
+            <select>
+              <option>--</option>
+              <option>Owner Occupied</option>
+              <option>Investment</option>
+            </select>
           </div>
           <div class="field">
             <label>Marital Status *</label>
-            <select><option>--</option><option>Single</option><option>Married</option></select>
+            <select>
+              <option>--</option>
+              <option>Single</option>
+              <option>Married</option>
+            </select>
           </div>
 
-          <div class="field" style="grid-column:span 2">
+          <div class="field" style="grid-column: span 2">
             <label>Email *</label>
-            <input value="alex.eells1995@gmail.com"/>
+            <input value="alex.eells1995@gmail.com" />
           </div>
           <div class="field">
             <label>Cell Phone *</label>
-            <input/>
+            <input />
           </div>
           <div class="field">
             <label>Work Phone</label>
-            <input/>
+            <input />
           </div>
           <div class="field">
             <label>Home Phone</label>
-            <input/>
+            <input />
           </div>
         </div>
       </section>
