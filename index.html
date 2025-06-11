@@ -3,330 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mortgage Intake – Glass UI</title>
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <title>Glass Morphism Mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --glass-bg: rgba(255, 255, 255, 0.1);
-      --glass-brd: rgba(255, 255, 255, 0.2);
-      --radius: 16px;
-      --gap: 1.25rem;
-      --deep-bg: #1e1f26; /* darker background */
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-primary: #f5c87a;
+      --text-secondary: #ffffff;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
 
     body {
-      background: var(--deep-bg);
-      min-height: 100vh;
+      height: 100vh;
+      background: radial-gradient(circle at 30% 70%, #2d1c40, #0d0d0d);
+      font-family: 'Outfit', sans-serif;
       display: flex;
-      color: #fff;
-    }
-
-    a, button, label {
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
-      border: 1px solid var(--glass-brd);
-      border-radius: var(--radius);
-    }
-
-    /* Layout */
-    #sidebar {
-      width: 240px;
-      padding: var(--gap);
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap);
-      overflow-y: auto;
-    }
-
-    #main {
-      flex: 1;
-      padding: var(--gap);
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap);
-    }
-
-    /* Sidebar */
-    .back-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-    }
-
-    .back-row .arrow {
-      background: var(--glass-bg);
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+    }
+
+    .background-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
       border-radius: 50%;
-      border: 1px solid var(--glass-brd);
+      background: radial-gradient(circle, #914fff88, #0000);
+      filter: blur(100px);
+      z-index: 0;
+      top: -100px;
+      right: -100px;
     }
 
-    .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin: 0.75rem 0 0.25rem;
-      color: #bbb;
-    }
-
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.2rem;
-      border-radius: 8px;
-      font-size: 0.88rem;
-    }
-
-    .step img {
-      width: 16px;
-      height: 16px;
-      opacity: 0.7;
-    }
-
-    .step.active {
-      background: rgba(0, 140, 255, 0.2);
-      font-weight: 600;
-    }
-
-    .step.disabled {
-      opacity: 0.5;
-    }
-
-    /* Top Bar */
-    #topbar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      padding: 0.25rem 0.6rem;
-      font-size: 0.75rem;
-      border-radius: 12px;
+    .window {
+      position: relative;
+      width: 800px;
+      max-width: 95%;
+      padding: 2rem;
+      border-radius: 20px;
       background: var(--glass-bg);
-      border: 1px solid var(--glass-brd);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+      z-index: 1;
     }
 
-    .badge span {
-      font-weight: 600;
-    }
-
-    /* Card */
-    .card {
-      padding: var(--gap);
+    .top-bar {
       display: flex;
-      flex-direction: column;
-      gap: var(--gap);
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
     }
 
-    .tabs {
+    .dots {
       display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .tab {
-      padding: 0.45rem 0.9rem;
-      font-size: 0.8rem;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      color: #ddd;
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
     }
 
-    .tab.active {
-      background: rgba(0, 140, 255, 0.2);
-      border-color: rgba(0, 140, 255, 0.3);
-      font-weight: 600;
-      color: #fff;
+    .dot.red {
+      background: #ff5f57;
     }
 
-    h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #fff;
+    .dot.yellow {
+      background: #ffbd2e;
     }
 
-    .check-row {
-      display: flex;
-      gap: 2rem;
-      font-size: 0.85rem;
+    .dot.green {
+      background: #28c840;
     }
 
-    label {
-      color: #ccc;
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #bbb;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--gap);
+    nav a:hover {
+      color: white;
     }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
+    .content {
+      margin-top: 2rem;
     }
 
-    .field label {
-      font-size: 0.75rem;
-      font-weight: 600;
+    .content h1 {
+      font-size: 2.5rem;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
     }
 
-    .field input,
-    .field select {
-      padding: 0.55rem 0.6rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-    }
-
-    input::placeholder {
-      color: #aaa;
-      font-size: 0.8rem;
-    }
-
-    ::-webkit-calendar-picker-indicator {
-      filter: invert(0.7);
+    .content p {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
     }
   </style>
 </head>
-
 <body>
-  <!-- Sidebar -->
-  <aside id="sidebar" class="glass">
-    <div class="back-row">
-      <div class="arrow">←</div>
-      <span>14472126</span>
-    </div>
+  <div class="background-glow"></div>
 
-    <div>
-      <div class="section-title">Purchase</div>
-      <div class="step active"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/new-post.png" />Invite Borrower</div>
-    </div>
-
-    <div class="section-title">Workflow</div>
-    <div class="step disabled">Loan & Property</div>
-    <div class="step disabled">Borrower Info</div>
-    <div class="step disabled">Financial Info</div>
-    <div class="step disabled">Products & Pricing</div>
-    <div class="step disabled">Review Fees</div>
-    <div class="step disabled">Dual AUS</div>
-    <div class="step disabled">Pre-Approval</div>
-  </aside>
-
-  <!-- Main -->
-  <main id="main">
-    <div id="topbar">
-      <span class="badge"><span>📄 App Intake</span></span>
-      <span class="badge">LTV --</span>
-      <span class="badge">FICO --</span>
-      <span class="badge">DTI 0.00%</span>
-      <span class="badge">FTC --</span>
-    </div>
-
-    <div class="card glass">
-      <div class="tabs">
-        <div class="tab active">Basic Details</div>
-        <div class="tab">Declarations</div>
-        <div class="tab">Demographics</div>
-        <div class="tab">Additional Questions</div>
+  <div class="window">
+    <div class="top-bar">
+      <div class="dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
       </div>
-
-      <section>
-        <h2>Personal Info</h2>
-        <div class="check-row">
-          <label><input type="checkbox" /> eConsent Authorized</label>
-          <label><input type="checkbox" /> Credit Pull Authorized</label>
-        </div>
-
-        <div class="form-grid">
-          <div class="field">
-            <label>First Name *</label>
-            <input placeholder="" />
-          </div>
-          <div class="field">
-            <label>Middle</label>
-            <input />
-          </div>
-          <div class="field">
-            <label>Last Name *</label>
-            <input />
-          </div>
-          <div class="field">
-            <label>Suffix</label>
-            <input />
-          </div>
-
-          <div class="field">
-            <label>Social Security Number *</label>
-            <input placeholder="---/--/----" />
-          </div>
-          <div class="field">
-            <label>Date of Birth *</label>
-            <input type="date" />
-          </div>
-          <div class="field">
-            <label>Residency Type *</label>
-            <select>
-              <option>--</option>
-              <option>Owner Occupied</option>
-              <option>Investment</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Marital Status *</label>
-            <select>
-              <option>--</option>
-              <option>Single</option>
-              <option>Married</option>
-            </select>
-          </div>
-
-          <div class="field" style="grid-column: span 2">
-            <label>Email *</label>
-            <input value="alex.eells1995@gmail.com" />
-          </div>
-          <div class="field">
-            <label>Cell Phone *</label>
-            <input />
-          </div>
-          <div class="field">
-            <label>Work Phone</label>
-            <input />
-          </div>
-          <div class="field">
-            <label>Home Phone</label>
-            <input />
-          </div>
-        </div>
-      </section>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <a href="#">Login</a>
+      </nav>
     </div>
-  </main>
+
+    <div class="content">
+      <h1>GLASS<br>MORPHISM</h1>
+      <p>mockup</p>
+    </div>
+  </div>
 </body>
 </html>
