@@ -3,215 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mortgage Intake – Glass UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
+  <title>Glass Morphism Mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --glass-bg:       rgba(255,255,255,.10);
-      --glass-brd:      rgba(255,255,255,.22);
-      --radius:         16px;
-      --gap:            1.25rem;
-      --deep-bg:        #1e1f26;          /* dark backdrop so glass pops */
-      --pill-bg:        rgba(0,140,255,.18);
-      --pill-brd:       rgba(0,140,255,.35);
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-primary: #f5c87a;
+      --text-secondary: #ffffff;
     }
 
-    /*  BASIC RESET  */
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-    body{min-height:100vh;background:var(--deep-bg);display:flex;color:#fff}
-
-    /*  GLASS MIXIN  */
-    .glass{
-      background:var(--glass-bg);
-      backdrop-filter:blur(22px) saturate(180%);
-      -webkit-backdrop-filter:blur(22px) saturate(180%);
-      border:1px solid var(--glass-brd);
-      border-radius:var(--radius);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /*  LAYOUT  */
-    #sidebar{width:240px;padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap);overflow-y:auto}
-    #main   {flex:1;padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap)}
-
-    /*  SIDEBAR  */
-    .back-row{display:flex;align-items:center;gap:.6rem;font-weight:600}
-    .back-row .arrow{width:32px;height:32px;border-radius:50%;align-items:center;justify-content:center;display:flex;border:1px solid var(--glass-brd);background:var(--glass-bg)}
-    .section-title{font-size:.85rem;font-weight:600;margin:.8rem 0 .25rem;color:#bbb}
-    .step{display:flex;gap:.5rem;align-items:center;font-size:.88rem;padding:.4rem .25rem;border-radius:8px}
-    .step img{width:16px;height:16px;opacity:.7}
-    .step.active{background:rgba(0,140,255,.20);font-weight:600}
-    .step.disabled{opacity:.55}
-
-    /*  TOP METRIC BAR  */
-    #topbar{display:flex;gap:.5rem;flex-wrap:wrap}
-    .badge{padding:.25rem .6rem;font-size:.75rem;border-radius:12px;background:var(--glass-bg);border:1px solid var(--glass-brd)}
-    .badge span{font-weight:600}
-
-    /*  MAIN CARD  */
-    .card{padding:var(--gap);display:flex;flex-direction:column;gap:var(--gap)}
-
-    /*  CARD HEADER (Primary Borrower + action buttons)  */
-    .card-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-    .primary-pill{
-      padding:.55rem 1.5rem;
-      background:var(--pill-bg);
-      border:1px solid var(--pill-brd);
-      border-radius:30px;
-      font-weight:600;
-      color:#fff;
-      letter-spacing:.2px;
-    }
-    .head-actions{display:flex;gap:.75rem;flex-wrap:wrap}
-    .head-actions button{
-      padding:.55rem 1.2rem;
-      border-radius:10px;
-      border:1px solid var(--glass-brd);
-      background:var(--glass-bg);
-      color:#fff;
-      font-size:.82rem;
-      display:flex;align-items:center;gap:.4rem;
-      cursor:pointer;
+    body {
+      height: 100vh;
+      background: radial-gradient(circle at 30% 70%, #2d1c40, #0d0d0d);
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
     }
 
-    /*  TABS  */
-    .tabs{display:flex;gap:.5rem;flex-wrap:wrap}
-    .tab{padding:.45rem .9rem;font-size:.8rem;border-radius:12px;color:#ddd;border:1px solid transparent;position:relative}
-    .tab.active{background:var(--pill-bg);border-color:var(--pill-brd);color:#fff;font-weight:600}
-    .tab.active::after{
-      content:'';position:absolute;left:0;right:0;bottom:-3px;height:3px;border-radius:2px;background:#e23a3a;
+    .background-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #914fff88, #0000);
+      filter: blur(100px);
+      z-index: 0;
+      top: -100px;
+      right: -100px;
     }
 
-    /*  SECTION TITLES & CHECKS  */
-    h2{font-size:1.05rem;font-weight:600;margin-bottom:.45rem}
-    .check-row{display:flex;gap:2rem;font-size:.85rem}
-    label{color:#ccc}
-
-    /*  FORM GRID  */
-    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap)}
-    .field{display:flex;flex-direction:column;gap:.35rem}
-    .field label{font-size:.75rem;font-weight:600}
-    .field input,.field select{
-      padding:.55rem .6rem;border-radius:10px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.08);color:#fff;
-      backdrop-filter:blur(14px) saturate(160%);
-      -webkit-backdrop-filter:blur(14px) saturate(160%);
+    .window {
+      position: relative;
+      width: 800px;
+      max-width: 95%;
+      padding: 2rem;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+      z-index: 1;
     }
-    input::placeholder{color:#aaa;font-size:.8rem}
-    ::-webkit-calendar-picker-indicator{filter:invert(.7)}
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red {
+      background: #ff5f57;
+    }
+
+    .dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .dot.green {
+      background: #28c840;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #bbb;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .content {
+      margin-top: 2rem;
+    }
+
+    .content h1 {
+      font-size: 2.5rem;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+    }
   </style>
 </head>
-
 <body>
-  <!--  SIDEBAR  -->
-  <aside id="sidebar" class="glass">
-    <div class="back-row">
-      <div class="arrow">←</div>
-      <span>14472126</span>
-    </div>
+  <div class="background-glow"></div>
 
-    <div>
-      <div class="section-title">Purchase</div>
-      <div class="step active"><img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png"/>Invite Borrower</div>
-    </div>
-
-    <div class="section-title">Workflow</div>
-    <div class="step disabled">Loan &amp; Property</div>
-    <div class="step disabled">Borrower Info</div>
-    <div class="step disabled">Financial Info</div>
-    <div class="step disabled">Products &amp; Pricing</div>
-    <div class="step disabled">Review Fees</div>
-    <div class="step disabled">Dual AUS</div>
-    <div class="step disabled">Pre-Approval</div>
-  </aside>
-
-  <!--  MAIN  -->
-  <main id="main">
-    <!-- Metric badges -->
-    <div id="topbar">
-      <span class="badge"><span>📄 App Intake</span></span>
-      <span class="badge">LTV --</span>
-      <span class="badge">FICO --</span>
-      <span class="badge">DTI 0.00 %</span>
-      <span class="badge">FTC --</span>
-    </div>
-
-    <!-- Glass card -->
-    <div class="card glass">
-      <!-- header row -->
-      <div class="card-head">
-        <div class="primary-pill">Primary Borrower</div>
-        <div class="head-actions">
-          <button>🧠 Order Credit</button>
-          <button>👤 Manage Borrowers</button>
-        </div>
+  <div class="window">
+    <div class="top-bar">
+      <div class="dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
       </div>
-
-      <!-- Tabs -->
-      <div class="tabs">
-        <div class="tab active">Basic Details</div>
-        <div class="tab">Declarations</div>
-        <div class="tab">Demographics</div>
-        <div class="tab">Additional Questions</div>
-      </div>
-
-      <!-- Personal info -->
-      <section>
-        <h2>Personal Info</h2>
-        <div class="check-row">
-          <label><input type="checkbox"> eConsent Authorized</label>
-          <label><input type="checkbox"> Credit Pull Authorized</label>
-        </div>
-
-        <div class="form-grid">
-          <div class="field">
-            <label>First Name *</label>
-            <input placeholder="">
-          </div>
-          <div class="field">
-            <label>Middle</label>
-            <input>
-          </div>
-          <div class="field">
-            <label>Last Name *</label>
-            <input>
-          </div>
-          <div class="field">
-            <label>Suffix</label>
-            <input>
-          </div>
-
-          <div class="field">
-            <label>Social Security Number *</label>
-            <input placeholder="-------">
-          </div>
-          <div class="field">
-            <label>Date of Birth *</label>
-            <input type="date">
-          </div>
-          <div class="field">
-            <label>Residency Type *</label>
-            <select>
-              <option>--</option><option>Owner Occupied</option><option>Investment</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Marital Status *</label>
-            <select>
-              <option>--</option><option>Single</option><option>Married</option>
-            </select>
-          </div>
-
-          <div class="field" style="grid-column:span 2;">
-            <label>Email *</label>
-            <input value="alex.eells1995@gmail.com">
-          </div>
-          <div class="field"><label>Cell Phone *</label><input></div>
-          <div class="field"><label>Work Phone</label><input></div>
-          <div class="field"><label>Home Phone</label><input></div>
-        </div>
-      </section>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <a href="#">Login</a>
+      </nav>
     </div>
-  </main>
+
+    <div class="content">
+      <h1>GLASS<br>MORPHISM</h1>
+      <p>mockup</p>
+    </div>
+  </div>
 </body>
 </html>
