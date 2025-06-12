@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Shay Rain</title>
+  <title>Shay Rain + Hotdogs</title>
   <style>
     body {
       margin: 0;
@@ -33,20 +33,27 @@
       z-index: 0;
     }
 
-    .falling-text {
+    .falling {
       position: absolute;
       font-size: 24px;
       font-weight: bold;
-      color: white;
-      text-shadow: 1px 1px 2px black;
+      text-align: center;
       animation: fall 3s linear forwards;
       z-index: 10;
     }
 
+    .text {
+      color: white;
+      text-shadow: 1px 1px 2px black;
+    }
+
+    .hotdog {
+      font-size: 32px;
+    }
+
     @keyframes fall {
-      0% { top: -50px; opacity: 1; }
-      90% { opacity: 1; }
-      100% { top: 100vh; opacity: 0; }
+      0% { top: -50px; opacity: 1; transform: rotate(0deg); }
+      100% { top: 100vh; opacity: 0; transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -60,18 +67,30 @@
       "We love Shay",
       "Shay likes hotdogs",
       "Shay is the best",
-      "Shay for president",
-      "Hotdog Queen Shay"
+      "Hotdog Queen Shay",
+      "Shay forever 💖"
     ];
 
     document.body.addEventListener("click", () => {
+      // Create falling text
       const text = document.createElement("div");
-      text.className = "falling-text";
+      text.className = "falling text";
       text.textContent = phrases[Math.floor(Math.random() * phrases.length)];
       text.style.left = Math.random() * window.innerWidth + "px";
       document.body.appendChild(text);
 
-      setTimeout(() => text.remove(), 3000);
+      // Create falling hotdog
+      const hotdog = document.createElement("div");
+      hotdog.className = "falling hotdog";
+      hotdog.textContent = "🌭";
+      hotdog.style.left = Math.random() * window.innerWidth + "px";
+      document.body.appendChild(hotdog);
+
+      // Clean up
+      setTimeout(() => {
+        text.remove();
+        hotdog.remove();
+      }, 3000);
     });
   </script>
 </body>
