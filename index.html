@@ -2,170 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Cherry Drop</title>
+  <title>Dino Game</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: #f2f2f2;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
       overflow: hidden;
-      position: relative;
     }
 
-    .sphere {
+    #game {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: #fff;
+      border-bottom: 2px solid #333;
+      overflow: hidden;
+    }
+
+    #dino {
       position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #e0e0e0, #c0c0c0);
-      opacity: 0.6;
-      filter: blur(20px);
+      bottom: 0;
+      left: 50px;
+      width: 40px;
+      height: 40px;
+      background: #333;
+      border-radius: 5px;
     }
 
-    .sphere.one {
-      width: 150px;
-      height: 150px;
-      top: -50px;
-      left: -50px;
+    .obstacle {
+      position: absolute;
+      bottom: 0;
+      right: -60px;
+      width: 30px;
+      height: 40px;
+      background: crimson;
+      border-radius: 3px;
+      animation: move 2s linear infinite;
     }
 
-    .sphere.two {
-      width: 120px;
-      height: 120px;
-      bottom: -40px;
-      left: 20%;
+    @keyframes move {
+      0% { right: -30px; }
+      100% { right: 100%; }
     }
 
-    .sphere.three {
-      width: 100px;
-      height: 100px;
-      top: 0;
-      right: -40px;
+    .jump {
+      animation: jump 0.5s ease-out;
     }
 
-    .glass-card {
-      width: 90%;
-      max-width: 700px;
-      padding: 2.5rem;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
-      color: #333;
-      text-align: left;
-      position: relative;
-      z-index: 1;
+    @keyframes jump {
+      0% { bottom: 0; }
+      50% { bottom: 80px; }
+      100% { bottom: 0; }
     }
 
-    .glass-card h1 {
-      font-size: 2rem;
-      margin: 0.5rem 0;
-    }
-
-    .glass-card p {
-      font-size: 1rem;
-      margin: 0.5rem 0 1.5rem;
-    }
-
-    .glass-card .top {
-      display: flex;
-      justify-content: space-between;
+    #score {
+      font-size: 18px;
       font-weight: bold;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
+      position: absolute;
+      top: 10px;
+      left: 10px;
     }
 
-    .glass-card .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .icons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .icons a {
-      text-decoration: none;
-      color: #333;
-      font-size: 1.2rem;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background: #ff4d6d;
-      color: white;
-      cursor: pointer;
-      margin: 1rem 0;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #e04361;
-    }
-
-    .cherry {
-      position: fixed;
-      top: -40px;
-      font-size: 2rem;
-      animation: fall 3s linear forwards;
-      pointer-events: none;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
+    #game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      color: red;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="sphere one"></div>
-  <div class="sphere two"></div>
-  <div class="sphere three"></div>
-
-  <div class="glass-card">
-    <div class="top">
-      <span>PRESENTATION DESIGN</span>
-      <span>LOGO</span>
-    </div>
-
-    <h1>TITLE OF THE PRESENTATION</h1>
-    <p>Lorem ipsum dolor sit amet consectetur. Pellentesque donec velit pretium et enim turpis leo ullamcorper integer.</p>
-
-    <button onclick="dropCherry()">Drop a Cherry 🍒</button>
-
-    <div class="bottom">
-      <div class="icons">
-        <a href="#">📷</a>
-        <a href="#">📘</a>
-        <a href="#">🌐</a>
-      </div>
-      <span>loremipsum@gmail.com</span>
-    </div>
+  <div id="game">
+    <div id="dino"></div>
+    <div id="score">Score: 0</div>
+    <div id="game-over">Game Over! Press R to restart.</div>
   </div>
 
   <script>
-    function dropCherry() {
-      const cherry = document.createElement("div");
-      cherry.className = "cherry";
-      cherry.textContent = "🍒";
-      cherry.style.left = Math.random() * 100 + "vw";
-      document.body.appendChild(cherry);
-      setTimeout(() => cherry.remove(), 3000);
+    const dino = document.getElementById("dino");
+    const game = document.getElementById("game");
+    const scoreDisplay = document.getElementById("score");
+    const gameOverDisplay = document.getElementById("game-over");
+
+    let isJumping = false;
+    let score = 0;
+    let gameOver = false;
+
+    // Jump on spacebar
+    document.addEventListener("keydown", function(e) {
+      if (e.code === "Space" && !isJumping && !gameOver) {
+        jump();
+      }
+
+      if (e.code === "KeyR" && gameOver) {
+        location.reload();
+      }
+    });
+
+    function jump() {
+      isJumping = true;
+      dino.classList.add("jump");
+
+      setTimeout(() => {
+        dino.classList.remove("jump");
+        isJumping = false;
+      }, 500);
     }
+
+    // Spawn obstacles
+    function createObstacle() {
+      const obstacle = document.createElement("div");
+      obstacle.classList.add("obstacle");
+      game.appendChild(obstacle);
+
+      const obstacleInterval = setInterval(() => {
+        const dinoRect = dino.getBoundingClientRect();
+        const obsRect = obstacle.getBoundingClientRect();
+
+        // Collision detection
+        if (
+          obsRect.left < dinoRect.right &&
+          obsRect.right > dinoRect.left &&
+          obsRect.bottom > dinoRect.top &&
+          obsRect.top < dinoRect.bottom
+        ) {
+          clearInterval(obstacleInterval);
+          gameOver = true;
+          gameOverDisplay.style.display = "block";
+          document.querySelectorAll('.obstacle').forEach(o => o.remove());
+        }
+
+        // Remove offscreen obstacle
+        if (obsRect.right < 0) {
+          clearInterval(obstacleInterval);
+          obstacle.remove();
+          if (!gameOver) score++;
+          scoreDisplay.textContent = `Score: ${score}`;
+        }
+      }, 20);
+    }
+
+    // Spawn new obstacle every 1.5 - 2.5 seconds
+    function obstacleSpawner() {
+      if (gameOver) return;
+      createObstacle();
+      const randomTime = Math.random() * 1000 + 1500;
+      setTimeout(obstacleSpawner, randomTime);
+    }
+
+    obstacleSpawner();
   </script>
 </body>
 </html>
