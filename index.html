@@ -3,140 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Morphism Mockup</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Glass Cherry Drop</title>
   <style>
-    :root {
-      --glass-bg: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --text-primary: #f5c87a;
-      --text-secondary: #ffffff;
-    }
-
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
       height: 100vh;
-      background: radial-gradient(circle at 30% 70%, #2d1c40, #0d0d0d);
-      font-family: 'Outfit', sans-serif;
+      background: #f2f2f2;
+      font-family: 'Arial', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      color: white;
-    }
-
-    .background-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #914fff88, #0000);
-      filter: blur(100px);
-      z-index: 0;
-      top: -100px;
-      right: -100px;
-    }
-
-    .window {
       position: relative;
-      width: 800px;
-      max-width: 95%;
-      padding: 2rem;
+    }
+
+    .sphere {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #e0e0e0, #c0c0c0);
+      opacity: 0.6;
+      filter: blur(20px);
+    }
+
+    .sphere.one {
+      width: 150px;
+      height: 150px;
+      top: -50px;
+      left: -50px;
+    }
+
+    .sphere.two {
+      width: 120px;
+      height: 120px;
+      bottom: -40px;
+      left: 20%;
+    }
+
+    .sphere.three {
+      width: 100px;
+      height: 100px;
+      top: 0;
+      right: -40px;
+    }
+
+    .glass-card {
+      width: 90%;
+      max-width: 700px;
+      padding: 2.5rem;
       border-radius: 20px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+      color: #333;
+      text-align: left;
+      position: relative;
       z-index: 1;
     }
 
-    .top-bar {
+    .glass-card h1 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+
+    .glass-card p {
+      font-size: 1rem;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    .glass-card .top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
-    .dot.red {
-      background: #ff5f57;
-    }
-
-    .dot.yellow {
-      background: #ffbd2e;
-    }
-
-    .dot.green {
-      background: #28c840;
-    }
-
-    nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      color: #bbb;
+      font-weight: bold;
       font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: white;
-    }
-
-    .content {
-      margin-top: 2rem;
-    }
-
-    .content h1 {
-      font-size: 2.5rem;
-      color: var(--text-primary);
       margin-bottom: 1rem;
     }
 
-    .content p {
-      font-size: 1.5rem;
-      color: var(--text-secondary);
+    .glass-card .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .icons a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.2rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      margin: 1rem 0;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e04361;
+    }
+
+    .cherry {
+      position: fixed;
+      top: -40px;
+      font-size: 2rem;
+      animation: fall 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="background-glow"></div>
+  <div class="sphere one"></div>
+  <div class="sphere two"></div>
+  <div class="sphere three"></div>
 
-  <div class="window">
-    <div class="top-bar">
-      <div class="dots">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-      </div>
-      <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-        <a href="#">Login</a>
-      </nav>
+  <div class="glass-card">
+    <div class="top">
+      <span>PRESENTATION DESIGN</span>
+      <span>LOGO</span>
     </div>
 
-    <div class="content">
-      <h1>GLASS<br>MORPHISM</h1>
-      <p>mockup</p>
+    <h1>TITLE OF THE PRESENTATION</h1>
+    <p>Lorem ipsum dolor sit amet consectetur. Pellentesque donec velit pretium et enim turpis leo ullamcorper integer.</p>
+
+    <button onclick="dropCherry()">Drop a Cherry 🍒</button>
+
+    <div class="bottom">
+      <div class="icons">
+        <a href="#">📷</a>
+        <a href="#">📘</a>
+        <a href="#">🌐</a>
+      </div>
+      <span>loremipsum@gmail.com</span>
     </div>
   </div>
+
+  <script>
+    function dropCherry() {
+      const cherry = document.createElement("div");
+      cherry.className = "cherry";
+      cherry.textContent = "🍒";
+      cherry.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(cherry);
+      setTimeout(() => cherry.remove(), 3000);
+    }
+  </script>
 </body>
 </html>
