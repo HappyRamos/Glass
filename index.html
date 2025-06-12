@@ -1,103 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini Mario</title>
+  <meta charset="UTF-8" />
+  <title>Shay Rain</title>
   <style>
     body {
       margin: 0;
       overflow: hidden;
       background: skyblue;
+      font-family: 'Arial', sans-serif;
+      position: relative;
     }
 
-    canvas {
-      display: block;
-      background: linear-gradient(#5c94fc, #6ec9ff);
+    .sun {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      width: 80px;
+      height: 80px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 40px yellow;
+      z-index: 0;
+    }
+
+    .grass {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to top, #1e9b18, #5ed45e);
+      z-index: 0;
+    }
+
+    .falling-text {
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      animation: fall 3s linear forwards;
+      z-index: 10;
+    }
+
+    @keyframes fall {
+      0% { top: -50px; opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
     }
   </style>
 </head>
 <body>
-<canvas id="game" width="800" height="400"></canvas>
+  <div class="sun"></div>
+  <div class="grass"></div>
 
-<script>
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
+  <script>
+    const phrases = [
+      "Shay",
+      "We love Shay",
+      "Shay likes hotdogs",
+      "Shay is the best",
+      "Shay for president",
+      "Hotdog Queen Shay"
+    ];
 
-  // Mario character
-  const mario = {
-    x: 50,
-    y: 300,
-    width: 40,
-    height: 50,
-    color: 'red',
-    dx: 0,
-    dy: 0,
-    jumping: false
-  };
+    document.body.addEventListener("click", () => {
+      const text = document.createElement("div");
+      text.className = "falling-text";
+      text.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+      text.style.left = Math.random() * window.innerWidth + "px";
+      document.body.appendChild(text);
 
-  // Platform (ground)
-  const groundHeight = 50;
-
-  // Gravity
-  const gravity = 0.5;
-  const friction = 0.8;
-  let keys = {};
-
-  // Listen to keypresses
-  document.addEventListener('keydown', (e) => keys[e.code] = true);
-  document.addEventListener('keyup', (e) => keys[e.code] = false);
-
-  function drawMario() {
-    ctx.fillStyle = mario.color;
-    ctx.fillRect(mario.x, mario.y, mario.width, mario.height);
-  }
-
-  function drawGround() {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
-  }
-
-  function update() {
-    // Move left/right
-    if (keys['ArrowRight']) {
-      mario.dx = 5;
-    } else if (keys['ArrowLeft']) {
-      mario.dx = -5;
-    } else {
-      mario.dx *= friction;
-    }
-
-    // Jump
-    if (keys['Space'] && !mario.jumping) {
-      mario.dy = -12;
-      mario.jumping = true;
-    }
-
-    mario.dy += gravity;
-    mario.x += mario.dx;
-    mario.y += mario.dy;
-
-    // Collision with ground
-    if (mario.y + mario.height > canvas.height - groundHeight) {
-      mario.y = canvas.height - groundHeight - mario.height;
-      mario.dy = 0;
-      mario.jumping = false;
-    }
-
-    // Boundaries
-    if (mario.x < 0) mario.x = 0;
-    if (mario.x + mario.width > canvas.width) mario.x = canvas.width - mario.width;
-  }
-
-  function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawGround();
-    drawMario();
-    update();
-    requestAnimationFrame(loop);
-  }
-
-  loop();
-</script>
+      setTimeout(() => text.remove(), 3000);
+    });
+  </script>
 </body>
 </html>
