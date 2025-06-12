@@ -2,163 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Shooter Game</title>
+  <title>Mini Mario</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #000; overflow: hidden; color: white; font-family: sans-serif; }
-
-    #game {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(to bottom, #111, #222);
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: skyblue;
     }
 
-    #player {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 50px;
-      background: #00f;
-      border-radius: 5px;
-    }
-
-    .bullet {
-      position: absolute;
-      width: 5px;
-      height: 20px;
-      background: yellow;
-    }
-
-    .enemy {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: red;
-      border-radius: 4px;
-    }
-
-    #score {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 20px;
-    }
-
-    #game-over {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 30px;
-      display: none;
-      color: red;
+    canvas {
+      display: block;
+      background: linear-gradient(#5c94fc, #6ec9ff);
     }
   </style>
 </head>
 <body>
-  <div id="game">
-    <div id="player"></div>
-    <div id="score">Score: 0</div>
-    <div id="game-over">Game Over! Press R to restart.</div>
-  </div>
+<canvas id="game" width="800" height="400"></canvas>
 
-  <script>
-    const game = document.getElementById("game");
-    const player = document.getElementById("player");
-    const scoreDisplay = document.getElementById("score");
-    const gameOverText = document.getElementById("game-over");
+<script>
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
 
-    let playerX = window.innerWidth / 2 - 25;
-    let bullets = [];
-    let enemies = [];
-    let score = 0;
-    let gameOver = false;
+  // Mario character
+  const mario = {
+    x: 50,
+    y: 300,
+    width: 40,
+    height: 50,
+    color: 'red',
+    dx: 0,
+    dy: 0,
+    jumping: false
+  };
 
-    document.addEventListener("keydown", e => {
-      if (e.code === "ArrowLeft") playerX -= 20;
-      if (e.code === "ArrowRight") playerX += 20;
-      if (e.code === "Space") shoot();
-      if (e.code === "KeyR" && gameOver) location.reload();
-      player.style.left = `${playerX}px`;
-    });
+  // Platform (ground)
+  const groundHeight = 50;
 
-    function shoot() {
-      if (gameOver) return;
-      const bullet = document.createElement("div");
-      bullet.classList.add("bullet");
-      bullet.style.left = `${playerX + 22}px`;
-      bullet.style.bottom = `70px`;
-      game.appendChild(bullet);
-      bullets.push(bullet);
+  // Gravity
+  const gravity = 0.5;
+  const friction = 0.8;
+  let keys = {};
+
+  // Listen to keypresses
+  document.addEventListener('keydown', (e) => keys[e.code] = true);
+  document.addEventListener('keyup', (e) => keys[e.code] = false);
+
+  function drawMario() {
+    ctx.fillStyle = mario.color;
+    ctx.fillRect(mario.x, mario.y, mario.width, mario.height);
+  }
+
+  function drawGround() {
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
+  }
+
+  function update() {
+    // Move left/right
+    if (keys['ArrowRight']) {
+      mario.dx = 5;
+    } else if (keys['ArrowLeft']) {
+      mario.dx = -5;
+    } else {
+      mario.dx *= friction;
     }
 
-    function spawnEnemy() {
-      const enemy = document.createElement("div");
-      enemy.classList.add("enemy");
-      enemy.style.left = `${Math.random() * (window.innerWidth - 40)}px`;
-      enemy.style.top = `-40px`;
-      game.appendChild(enemy);
-      enemies.push(enemy);
+    // Jump
+    if (keys['Space'] && !mario.jumping) {
+      mario.dy = -12;
+      mario.jumping = true;
     }
 
-    function moveObjects() {
-      if (gameOver) return;
+    mario.dy += gravity;
+    mario.x += mario.dx;
+    mario.y += mario.dy;
 
-      // Move bullets
-      bullets.forEach((bullet, index) => {
-        let bottom = parseInt(bullet.style.bottom);
-        bullet.style.bottom = `${bottom + 10}px`;
-        if (bottom > window.innerHeight) {
-          bullet.remove();
-          bullets.splice(index, 1);
-        }
-      });
-
-      // Move enemies
-      enemies.forEach((enemy, eIndex) => {
-        let top = parseInt(enemy.style.top);
-        enemy.style.top = `${top + 5}px`;
-
-        // Game Over if enemy hits player area
-        if (top > window.innerHeight - 60) {
-          endGame();
-        }
-
-        // Collision
-        bullets.forEach((bullet, bIndex) => {
-          const eRect = enemy.getBoundingClientRect();
-          const bRect = bullet.getBoundingClientRect();
-
-          if (
-            bRect.left < eRect.right &&
-            bRect.right > eRect.left &&
-            bRect.top < eRect.bottom &&
-            bRect.bottom > eRect.top
-          ) {
-            bullet.remove();
-            enemy.remove();
-            bullets.splice(bIndex, 1);
-            enemies.splice(eIndex, 1);
-            score++;
-            scoreDisplay.textContent = `Score: ${score}`;
-          }
-        });
-      });
+    // Collision with ground
+    if (mario.y + mario.height > canvas.height - groundHeight) {
+      mario.y = canvas.height - groundHeight - mario.height;
+      mario.dy = 0;
+      mario.jumping = false;
     }
 
-    function endGame() {
-      gameOver = true;
-      gameOverText.style.display = "block";
-    }
+    // Boundaries
+    if (mario.x < 0) mario.x = 0;
+    if (mario.x + mario.width > canvas.width) mario.x = canvas.width - mario.width;
+  }
 
-    setInterval(() => {
-      if (!gameOver) spawnEnemy();
-    }, 1200);
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawGround();
+    drawMario();
+    update();
+    requestAnimationFrame(loop);
+  }
 
-    setInterval(moveObjects, 30);
-  </script>
+  loop();
+</script>
 </body>
 </html>
